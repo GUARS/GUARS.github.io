@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>date</title>
+	<style>
+	.datepicker{
+		position: relative;
+
+	}
+	[date-type=date]{
+		background: #CCC;
+		/*display: inline-block;*/
+		display: none;
+		position: absolute;
+		left: 0;
+		top: 20px;
+
+	}
+	.display{
+		display: inline-block;
+	}
+[date-type=date] ul{
+	list-style: none;
+}
+[date-type=date] *{
+	box-sizing: border-box;
+	padding:0;
+
+}
+.date-header,.date-body,.date-head{
+	width: 210px
+}
+.date-header{
+	background: #888;
+}
+.date-header li{
+float: left;
+display: inline-block;
+width: 30px;
+text-align:center;
+}
+
+.date-body li:first-child {
+	text-align: right;
+	
+/*float: right;*/
+}
+.date-body span{
+	text-align:center;
+
+	display: inline-block;
+	width: 30px;
+	border: 1px solid #ccc;
+	
+}
+.clearfix::after{
+content: "";
+clear: both;
+display: table;
+}
+.date-head{
+	display: table;
+}
+.date-head li{
+	display: table-cell;
+	text-align: center;
+	cursor: pointer;
+}
+.date-body .today{
+background: red;
+}
+
+	</style>
+ <script src="jquery.min.js"></script>
+
+</head>
+<body>
+<div class="datepicker">
+<input type="text" data-date="true"/>
+ </div>
+<script src="date.js"></script>
+
+	
+</body>
+</html>

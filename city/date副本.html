@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+	 <script src="jquery.min.js"></script>
+	<style>
+	*{margin:0;padding:0;box-sizing: border-box;}
+	body{
+		padding:50px;
+	}
+	    a{
+	    	text-decoration:none;
+	    }
+	    ul{
+	    	list-style:none;
+	    }
+		.date-control{
+			position:relative;
+			
+		}
+		
+
+		.datebox{
+			width:200px;
+			position:absolute;
+			top:20px;
+			left:0px;
+			text-align:center;
+			border:1px solid #ccc;
+			line-height:1.5;
+		}
+		.datebox .table{
+			display:table;
+			width:100%;
+			border:0;
+		}
+		.datebox .table>*{
+			display:table-cell;
+			vertical-align:center;
+
+		}
+		.datebox .top>a{
+			width:25px;
+		}
+		.datebox .date-list>*{
+			float:left;
+			text-align:center;
+			width:14.2857%;
+			
+		}
+		.datebox .date-list .active{
+			background-color: blue;
+		}
+		.datebox .date-list{
+			
+		}
+		.datebox .week{
+			background-color: #ddd;
+
+		}
+		.datebox .date-list::after{
+			display:table;
+			content:'';
+			clear:both;
+		}
+	</style>
+</head>
+<body>
+	<div class="date-control">
+	<input type="text" readonly="readonly">
+	<div class="datebox">
+		<div class="table top">
+			<a href="" class="prev-year">&lt;&lt;</a>
+			<a href="" class="prev-month">&lt;</a>
+			<span href="" class="title"></span>
+			<a href="" class="next-month">&gt;</a>
+			<a href="" class="next-year">&gt;&gt;</a>
+		</div>
+		<ul class="table week">
+			<li>日</li>
+			<li>一</li>
+			<li>二</li>
+			<li>三</li>
+			<li>四</li>
+			<li>五</li>
+			<li>六</li>
+		</ul>
+		<div class="date-list">
+			
+		</div>
+	</div>
+	</div>
+    <script>
+      $(function(){
+      	 datebox('input');
+      })
+    </script>
+	<script>
+    !function(){
+        var y,m,selected,$ele,$list,$title;
+        function run(ele){
+              $ele=$(ele);
+              $ele.click(function(){
+                  init();
+              });
+        }
+        function init(){
+	    	 $list=$('.datebox .date-list');
+	          $title=$('.datebox .title');
+	          var date;
+	          if($ele.val().length>0)
+	            date=new Date($ele.val());
+	          else
+	          	date=new Date();
+	          y=date.getFullYear();
+	          m=date.getMonth();
+	          selected="".concat(y,'-',m+1,'-',date.getDate());
+	          render();
+	          bindEvent();
+        }
+        
+        function render(){
+           $title.text(y+'年'+(m+1)+'月');
+           var temp=new Date();
+           temp.setFullYear(y,m,1);
+           var html='';
+           for(var i=0;i<temp.getDay();i++){
+           		html+='<span href="" class="no">&nbsp;</span>';
+           }
+           temp.setFullYear(y,m+1,0);
+           for(var j=1;j<=temp.getDate();j++){
+                var _d="".concat(y,'-',m+1,'-',j)
+           		var active=selected==_d?'active':''
+           		html+='<a href="" class="date '+active+'" data-value="'+_d+'">'+j+'</a>';
+           }
+           $list.html(html);
+           $('.datebox .date-list .date').click(function(){
+           	  selected=$(this).data('value');
+           	  $(this).addClass('active').siblings().removeClass('active');
+           	  $ele.val(selected);
+           	  return false;
+           });
+        }
+        function bindEvent(){
+           $('.datebox .top a').click(function(){
+           	   if($(this).hasClass('prev-year')){
+           	   	  y--;
+           	   }
+           	   else if($(this).hasClass('prev-month')){
+           	   	  if(m-1<0){
+           	   	  	 m=11;
+           	   	  	 y--;
+           	   	  }
+           	   	  else{
+           	   	  	m--;
+           	   	  }
+           	   }
+           	   else if($(this).hasClass('next-year')){
+           	   	  y++;
+           	   }else if($(this).hasClass('next-month')){
+           	   		if(m+1>11){
+	           	   	  	 m=0;
+	           	   	  	 y++;
+	           	   	  }
+	           	   	  else{
+	           	   	  	m++;
+	           	   	  }
+           	   }
+           	   render();
+           	   return false;
+           });
+           
+         }
+    	window['datebox']=run;
+
+    }();
+	</script>
+</body>
+</html>
